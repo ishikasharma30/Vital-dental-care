@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | Vital Dental Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="admin.js"></script>
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --dark-teal: #134E4A;
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --sidebar-width: 260px;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. Sidebar Navigation --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            color: var(--primary-teal);
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+            flex-grow: 1;
+            list-style: none;
+        }
+
+        .nav-links li {
+            padding: 5px 20px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: rgba(20, 184, 166, 0.1);
+            color: var(--primary-teal);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-footer a {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* --- 2. Top Header Bar --- */
+        .top-bar {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .greeting h2 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .greeting p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .stat-badge {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            color: var(--primary-teal);
+            font-size: 1.2rem;
+        }
+
+        /* --- Dashboard Content Layout --- */
+        .dashboard-container {
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- 3. Pending Approvals Queue (Table) --- */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 15px;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+            background-color: var(--bg-main);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+            vertical-align: middle;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-approve {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .btn-approve:hover {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .btn-reject:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* --- 4. Today's Schedule (Timeline View) --- */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .time-slot {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+        }
+
+        .time-slot.filled {
+            border-left: 4px solid var(--primary-teal);
+            background-color: var(--bg-card);
+        }
+
+        .time-label {
+            font-weight: 700;
+            width: 80px;
+            color: var(--text-muted);
+        }
+
+        .slot-details {
+            flex-grow: 1;
+        }
+
+        .slot-details strong {
+            display: block;
+            color: var(--text-main);
+        }
+
+        .slot-details span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- 5. Patient Directory --- */
+        .search-bar {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 1024px) {
+            .stat-badge span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo"><i class="fas fa-heartbeat"></i> Vital Admin</div>
+        </div>
+        <ul class="nav-links">
+            <li><a onclick="showView('dashboardView')" class="active" id="nav-dashboard"><i
+                        class="fas fa-chart-line"></i> Dashboard Home</a></li>
+            <li><a onclick="showView('queueView')" id="nav-queue"><i class="fas fa-list-ul"></i> Appointments Queue</a>
+            </li>
+            <li><a onclick="showView('directoryView')" id="nav-directory"><i class="fas fa-users"></i> Patient
+                    Directory</a></li>
+            <li><a href="admin_setting.html"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="greeting">
+                <h2>Welcome, Dr. Prachi</h2>
+                <p>Admin Portal Overview</p>
+            </div>
+            <div class="header-actions">
+                <div class="stat-badge"><i class="far fa-calendar-check text-teal"></i> <span>Today's Visits: 8</span>
+                </div>
+                <div class="stat-badge" style="border-color: rgba(245,158,11,0.5); color: #f59e0b;"><i
+                        class="fas fa-bell"></i> <span id="pendingCount">Pending: Loading...</span></div>
+                <div class="theme-toggle" id="themeBtn"><i class="fas fa-moon"></i></div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+
+            <div id="dashboardView">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clipboard-list" style="color: #f59e0b;"></i> Pending Approvals</h3>
+                            <button class="btn-action btn-approve"
+                                style="background: transparent; border: 1px solid var(--border); color: var(--text-main);"
+                                onclick="showView('queueView')">View All</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Patient Name</th>
+                                        <th>Date & Time</th>
+                                        <th>Concern</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="pendingTableBody">
+                                    <tr>
+                                        <td colspan="4"
+                                            style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading pending appointments...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="far fa-clock" style="color: var(--primary-teal);"></i> Today's Schedule</h3>
+                        </div>
+                        <div class="timeline">
+                            <div class="time-slot filled">
+                                <div class="time-label">9:00 AM</div>
+                                <div class="slot-details">
+                                    <strong>Vikram Sharma</strong>
+                                    <span>RCT Follow-up</span>
+                                </div>
+                            </div>
+                            <div class="time-slot">
+                                <div class="time-label">10:00 AM</div>
+                                <div class="slot-details" style="color: var(--text-muted);">Available Slot</div>
+                            </div>
+                            <div class="time-slot filled">
+                                <div class="time-label">11:00 AM</div>
+                                <div class="slot-details">
+                                    <strong>Priya Patel</strong>
+                                    <span>Invisalign Consultation</span>
+                                </div>
+                            </div>
+                            <div class="time-slot filled" style="border-left-color: #f59e0b;">
+                                <div class="time-label">12:00 PM</div>
+                                <div class="slot-details">
+                                    <strong>Emergency Block</strong>
+                                    <span>Reserved for walk-ins</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="queueView" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-alt text-teal"></i> All Appointments</h3>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Use this view to manage all upcoming and
+                        past appointments.</p>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient Details</th>
+                                    <th>Schedule</th>
+                                    <th>Concern</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Vikram Sharma</strong><br><small
+                                            style="color: var(--text-muted)">9876543211</small></td>
+                                    <td>Today<br><small style="color: var(--text-muted)">9:00 AM - 10:00 AM</small></td>
+                                    <td>RCT Follow-up</td>
+                                    <td><span style="color: var(--success); font-weight: 600;"><i
+                                                class="fas fa-check-circle"></i> Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priya Patel</strong><br><small
+                                            style="color: var(--text-muted)">priya@email.com</small></td>
+                                    <td>Today<br><small style="color: var(--text-muted)">11:00 AM - 12:00 PM</small>
+                                    </td>
+                                    <td>Invisalign</td>
+                                    <td><span style="color: var(--success); font-weight: 600;"><i
+                                                class="fas fa-check-circle"></i> Confirmed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="directoryView" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-users text-teal"></i> Patient Directory</h3>
+                    </div>
+                    <input type="text" class="search-bar" placeholder="Search patients by name, email, or phone...">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Patient Name</th>
+                                    <th>Contact Info</th>
+                                    <th>Total Visits</th>
+                                    <th>Last Visit Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Akshay Kumar</strong></td>
+                                    <td>ishupsharma49@gmail.com<br><small
+                                            style="color: var(--text-muted)">7982657549</small></td>
+                                    <td>3</td>
+                                    <td>Sept 15, 2026</td>
+                                    <td><button class="btn-action btn-approve"
+                                            style="background: transparent; border: 1px solid var(--primary-teal); color: var(--primary-teal);">View
+                                            Profile</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAllAppointments();
+        });
+
+        // --- Fetch & Distribute All Appointments ---
+        async function fetchAllAppointments() {
+            try {
+                // Fetch from the new backend route
+                const response = await fetch(`${API_BASE_URL}/appointments/all`);
+
+                if (!response.ok) throw new Error("Server responded with an error");
+
+                const appointments = await response.json();
+
+                // 1. Separate appointments into Pending and Confirmed
+                const pendingAppts = appointments.filter(appt => appt.status === 'Pending');
+                const confirmedAppts = appointments.filter(appt => appt.status === 'Confirmed');
+
+                // 2. Update Pending Queue (Top Left Card)
+                renderPendingQueue(pendingAppts);
+
+                // 3. Update Today's Schedule (Top Right Card)
+                renderTodaysSchedule(confirmedAppts);
+
+                // 4. Update All Appointments Queue (Hidden View)
+                renderAllAppointments(appointments);
+
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+                document.getElementById('pendingTableBody').innerHTML = `
+                    <tr><td colspan="4" style="text-align: center; color: var(--danger); padding: 30px;">
+                    ❌ Error connecting to server. Is your Node.js backend running?
+                    </td></tr>`;
+            }
+        }
+
+        // --- Render Functions ---
+
+        function renderPendingQueue(pendingAppts) {
+            const tableBody = document.getElementById('pendingTableBody');
+            const countBadge = document.getElementById('pendingCount');
+
+            countBadge.innerText = `Pending: ${pendingAppts.length}`;
+
+            if (pendingAppts.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted); padding: 30px;">No pending approvals! You are all caught up.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = '';
+            pendingAppts.forEach(appt => {
+                const rowId = `row-${appt._id}`;
+                tableBody.innerHTML += `
+                    <tr id="${rowId}">
+                        <td><strong>${appt.patientName}</strong><br><small style="color: var(--text-muted)">${appt.patientEmail}</small></td>
+                        <td>${appt.date}<br><small style="color: var(--text-muted)">${appt.timeSlot}</small></td>
+                        <td>${appt.concern}</td>
+                        <td class="action-btns">
+                            <button class="btn-action btn-approve" onclick="handleAction('${rowId}', 'approve', '${appt.patientName}', '${appt._id}')"><i class="fas fa-check"></i> Approve</button>
+                            <button class="btn-action btn-reject" onclick="handleAction('${rowId}', 'reject', '${appt.patientName}', '${appt._id}')"><i class="fas fa-times"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderTodaysSchedule(confirmedAppts) {
+            const timelineContainer = document.querySelector('.timeline');
+
+            // Filter to only show appointments for "Today"
+            const todayString = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const todaysAppts = confirmedAppts.filter(appt => appt.date === todayString);
+
+            if (todaysAppts.length === 0) {
+                timelineContainer.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No appointments confirmed for today.</div>`;
+                return;
+            }
+
+            timelineContainer.innerHTML = '';
+            todaysAppts.forEach(appt => {
+                // Extract just the start time (e.g. "9:00 AM" from "9:00 AM - 10:00 AM")
+                const startTime = appt.timeSlot.split(' - ')[0] || appt.timeSlot;
+
+                timelineContainer.innerHTML += `
+                    <div class="time-slot filled">
+                        <div class="time-label">${startTime}</div>
+                        <div class="slot-details">
+                            <strong>${appt.patientName}</strong>
+                            <span>${appt.concern}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderAllAppointments(allAppts) {
+            const queueTableBody = document.querySelector('#queueView tbody');
+
+            if (allAppts.length === 0) {
+                queueTableBody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No appointments found.</td></tr>`;
+                return;
+            }
+
+            queueTableBody.innerHTML = '';
+            allAppts.forEach(appt => {
+                let statusHtml = '';
+                if (appt.status === 'Confirmed') {
+                    statusHtml = `<span style="color: var(--success); font-weight: 600;"><i class="fas fa-check-circle"></i> Confirmed</span>`;
+                } else if (appt.status === 'Rejected') {
+                    statusHtml = `<span style="color: var(--danger); font-weight: 600;"><i class="fas fa-times-circle"></i> Rejected</span>`;
+                } else {
+                    statusHtml = `<span style="color: var(--warning); font-weight: 600;"><i class="fas fa-circle"></i> Pending</span>`;
+                }
+
+                queueTableBody.innerHTML += `
+                    <tr>
+                        <td><strong>${appt.patientName}</strong><br><small style="color: var(--text-muted)">${appt.patientEmail}</small></td>
+                        <td>${appt.date}<br><small style="color: var(--text-muted)">${appt.timeSlot}</small></td>
+                        <td>${appt.concern}</td>
+                        <td>${statusHtml}</td>
+                    </tr>
+                `;
+            });
+        }
+
+
+        // --- Handle Approval/Rejection ---
+        async function handleAction(rowId, action, patientName, dbAppointmentId) {
+            if (action === 'approve') {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/appointments/approve`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ appointmentId: dbAppointmentId })
+                    });
+
+                    if (response.ok) {
+                        alert(`✅ ${patientName}'s appointment Confirmed! Email sent.`);
+                        // RE-FETCH data so "Today's Schedule" and "Queue" update instantly
+                        fetchAllAppointments();
+                    } else {
+                        alert(`❌ Failed to approve appointment in database.`);
+                    }
+                } catch (error) {
+                    alert(`❌ Server error: Could not connect to database.`);
+                }
+            } else {
+                // Mock Reject (You can build a /reject backend route later)
+                alert(`❌ ${patientName}'s appointment Rejected.`);
+                const row = document.getElementById(rowId);
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 300);
+            }
+        }
+
+
+        // --- Theme & View Toggle Logic ---
+        const themeBtn = document.getElementById('themeBtn');
+        const rootElement = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        rootElement.setAttribute('data-theme', savedTheme);
+        if (themeBtn) themeBtn.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = rootElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            rootElement.setAttribute('data-theme', newTheme);
+            themeBtn.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        function showView(viewId) {
+            document.getElementById('dashboardView').classList.add('hidden');
+            document.getElementById('queueView').classList.add('hidden');
+            document.getElementById('directoryView').classList.add('hidden');
+
+            document.getElementById('nav-dashboard').classList.remove('active');
+            document.getElementById('nav-queue').classList.remove('active');
+            document.getElementById('nav-directory').classList.remove('active');
+
+            document.getElementById(viewId).classList.remove('hidden');
+            if (viewId === 'dashboardView') document.getElementById('nav-dashboard').classList.add('active');
+            if (viewId === 'queueView') document.getElementById('nav-queue').classList.add('active');
+            if (viewId === 'directoryView') document.getElementById('nav-directory').classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

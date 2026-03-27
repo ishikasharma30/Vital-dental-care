@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Vital Dental Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+    <style>
+        /* Core Variables (Fallback if style.css is missing) */
+        :root {
+            --primary: #0D6D62;
+            --teal: #20B2AA;
+            --teal-light: #E6F3F2;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --red-500: #ef4444;
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--white);
+        }
+
+        /* --- Contact Hero Section --- */
+        .contact-hero {
+            background-color: #ecf8f7;
+            padding: 6rem 1.5rem 8rem 1.5rem;
+            text-align: center;
+        }
+
+        .contact-label {
+            display: inline-block;
+            color: var(--teal);
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-desc {
+            color: var(--gray-500);
+            font-size: 1.125rem;
+            max-width: 48rem;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* --- Contact Cards (Overlapping) --- */
+        .contact-cards-section {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: -4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .contact-card {
+            background-color: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid var(--gray-100);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: var(--white);
+            border: 2px solid var(--teal-light);
+            color: var(--teal);
+            border-radius: 0.75rem;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .contact-card:hover .contact-icon-wrapper {
+            transform: scale(1.1);
+            background-color: var(--teal-light);
+        }
+
+        .contact-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-detail {
+            color: var(--teal);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-subtext {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        /* --- Map and Form Section --- */
+        .map-form-section {
+            padding: 6rem 1.5rem;
+            background-color: var(--white);
+        }
+
+        .map-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .map-container {
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-100);
+            height: 100%;
+            min-height: 450px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .contact-form-wrapper {
+            background-color: var(--white);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--gray-100);
+            border-radius: 0.5rem;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.15);
+            background-color: var(--white);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--teal);
+            color: var(--white);
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #1c9e97;
+            transform: translateY(-2px);
+        }
+
+        /* --- Business Hours Section --- */
+        .hours-section {
+            padding: 2rem 1.5rem 6rem 1.5rem;
+            background-color: var(--white);
+        }
+
+        .hours-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-100);
+        }
+
+        .hours-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .hours-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .hours-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .hours-header p {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin: 0;
+        }
+
+        .hours-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--gray-50);
+            font-size: 1rem;
+        }
+
+        .hours-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .day {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+
+        .time {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .time.closed {
+            color: var(--red-500);
+        }
+
+        /* =========================================
+           UPDATED DARK MODE STYLES
+           ========================================= */
+
+        /* Navigation Bar Dark Mode */
+        [data-theme="dark"] .top-bar {
+            background-color: #0d6d62;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="dark"] .navbar {
+            background-color: #111827;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        [data-theme="dark"] .brand-text h1,
+        [data-theme="dark"] .nav-links a {
+            color: #f9fafb;
+        }
+
+        [data-theme="dark"] .nav-links a:hover,
+        [data-theme="dark"] .nav-links a.active {
+            color: var(--teal);
+        }
+
+        [data-theme="dark"] .btn-login {
+            background-color: transparent;
+            border: 1px solid #374151;
+            color: #f9fafb;
+        }
+
+        [data-theme="dark"] .btn-login:hover {
+            background-color: #1f2937;
+            border-color: var(--teal);
+        }
+
+        [data-theme="dark"] .btn-theme {
+            color: #9ca3af;
+        }
+
+        [data-theme="dark"] .brand-icon i {
+            color: var(--teal);
+        }
+
+        /* Contact Page Specific Dark Mode */
+
+        /* Hero Section */
+        [data-theme="dark"] .contact-hero {
+            background-color: #0f172a;
+        }
+
+        [data-theme="dark"] .contact-title,
+        [data-theme="dark"] .contact-desc {
+            color: #f9fafb;
+        }
+
+        /* Main Sections Background */
+        [data-theme="dark"] .contact-cards-section,
+        [data-theme="dark"] .map-form-section,
+        [data-theme="dark"] .hours-section,
+        [data-theme="dark"] .contact-form-wrapper {
+            background-color: #111827;
+        }
+
+        /* Cards */
+        [data-theme="dark"] .contact-card,
+        [data-theme="dark"] .hours-card {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+
+        [data-theme="dark"] .contact-card h3,
+        [data-theme="dark"] .hours-header h3,
+        [data-theme="dark"] .day,
+        [data-theme="dark"] .form-label {
+            color: #f9fafb;
+        }
+
+        [data-theme="dark"] .contact-icon-wrapper {
+            border-color: #374151;
+            background-color: #1f2937;
+        }
+
+        /* Form Elements */
+        [data-theme="dark"] .form-control {
+            background-color: #1f2937;
+            border-color: #374151;
+            color: #f9fafb;
+        }
+
+        [data-theme="dark"] .form-control:focus {
+            background-color: #111827;
+        }
+
+        [data-theme="dark"] .form-control::placeholder {
+            color: #9ca3af;
+        }
+
+        [data-theme="dark"] .hours-item {
+            border-color: #374151;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            .map-form-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .map-container {
+                min-height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                margin-top: -2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .contact-title {
+                font-size: 2.25rem;
+            }
+
+            .hours-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="contact-info">
+            <span><i class="fas fa-phone"></i> 7982657549</span>
+            <span><i class="fas fa-envelope"></i> prachisharma84700@gmail.com</span>
+        </div>
+        <div class="working-hours">Mon - Sat: 9:00 AM - 6:00 PM</div>
+    </div>
+
+    <nav class="navbar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-wave-square"></i></div>
+            <div class="brand-text">
+                <h1>Vital Dental Care</h1>
+                <p>For a Bright, Healthier You</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html" class="active">Contact</a>
+            <button class="btn-login">
+                <a href="login.html"><i class="far fa-user"></i> Patient Login</a>
+            </button>
+            <div class="nav-actions">
+                <div class="theme-toggle" id="themeBtn" style="cursor: pointer;">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="contact-hero">
+        <div class="container">
+            <span class="contact-label">Contact Us</span>
+            <h2 class="contact-title">
+                We'd Love to <span class="text-teal">Hear From You</span>
+            </h2>
+            <p class="contact-desc">
+                Have questions about our services or want to schedule an appointment? Reach out to us through any of the
+                channels below.
+            </p>
+        </div>
+    </section>
+
+    <section class="contact-cards-section">
+        <div class="container">
+            <div class="contact-grid">
+
+                <div class="contact-card">
+                    <div class="contact-icon-wrapper">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Phone</h3>
+                    <p class="contact-detail">7982657549</p>
+                    <p class="contact-subtext">Call us for appointments</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon-wrapper">
+                        <i class="far fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p class="contact-detail">prachisharma84700@gmail.com</p>
+                    <p class="contact-subtext">We respond within 24 hours</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon-wrapper">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Address</h3>
+                    <p class="contact-detail">1092/5, Street No. 12, Patel Nagar</p>
+                    <p class="contact-subtext">Gurugram, Haryana — 122001</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="map-form-section">
+        <div class="container map-form-grid">
+
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.822262968393!2d77.027008!3d28.454792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d19d582e38859%3A0x2cf5fe8e5c64b1e!2sPatel%20Nagar%2C%20Gurugram%2C%20Haryana!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <div class="contact-form-wrapper">
+                <form action="#" method="POST">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" placeholder="Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number (optional)</label>
+                            <input type="tel" class="form-control" placeholder="Your phone number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Subject</label>
+                        <input type="text" class="form-control" placeholder="How can we help?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" placeholder="Tell us more about your inquiry..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        Send Message <i class="far fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="hours-section">
+        <div class="container">
+            <div class="hours-card">
+
+                <div class="hours-header">
+                    <div class="hours-icon">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <div>
+                        <h3>Business Hours</h3>
+                        <p>When we're available</p>
+                    </div>
+                </div>
+
+                <ul class="hours-list">
+                    <li class="hours-item">
+                        <span class="day">Monday</span>
+                        <span class="time">9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="hours-item">
+                        <span class="day">Tuesday</span>
+                        <span class="time">9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="hours-item">
+                        <span class="day">Wednesday</span>
+                        <span class="time">9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="hours-item">
+                        <span class="day">Thursday</span>
+                        <span class="time">9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="hours-item">
+                        <span class="day">Friday</span>
+                        <span class="time">9:00 AM - 6:00 PM</span>
+                    </li>
+                    <li class="hours-item">
+                        <span class="day">Saturday</span>
+                        <span class="time">9:00 AM - 4:00 PM</span>
+                    </li>
+                    <li class="hours-item">
+                        <span class="day">Sunday</span>
+                        <span class="time closed">Closed</span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <div class="footer-brand">
+                    <div class="brand-icon"><i class="fas fa-wave-square"></i></div>
+                    <div>
+                        <h4>Vital Dental Care</h4>
+                        <p>For a Bright, Healthier You</p>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Your trusted partner in dental health. We're committed to providing exceptional care in a
+                    comfortable and welcoming environment.
+                </p>
+            </div>
+
+            <div class="footer-contact">
+                <h5>Contact Us</h5>
+                <ul>
+                    <li><i class="fas fa-phone-alt"></i> 7982657549</li>
+                    <li><i class="far fa-envelope"></i> prachisharma84700@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 1092/5, Street No. 12, Patel Nagar,<br>Gurugram, Haryana —
+                        122001</li>
+                </ul>
+            </div>
+
+            <div class="footer-hours">
+                <h5>Working Hours</h5>
+                <ul>
+                    <li><span>Monday - Friday</span> <span>9AM - 6PM</span></li>
+                    <li><span>Saturday</span> <span>9AM - 4PM</span></li>
+                    <li><span>Sunday</span> <span class="closed">Closed</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom border-top">
+            <p>© 2026 Vital Dental Care. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/917982657549" target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+        <span>Chat with us</span>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme Toggle Logic
+            const themeBtn = document.querySelector('.btn-theme');
+            if (themeBtn) {
+                const themeIcon = themeBtn.querySelector('i');
+                const rootElement = document.documentElement;
+
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    rootElement.setAttribute('data-theme', 'dark');
+                    if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+                }
+
+                themeBtn.addEventListener('click', () => {
+                    const currentTheme = rootElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        rootElement.removeAttribute('data-theme');
+                        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        rootElement.setAttribute('data-theme', 'dark');
+                        if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

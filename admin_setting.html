@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic & Admin Settings | Vital Dental Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="script.js"></script>
+<script src="admin_setting.js"></script>
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --dark-teal: #134E4A;
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --sidebar-width: 260px;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. Sidebar Navigation (Consistent with Admin Dashboard) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            color: var(--primary-teal);
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+            flex-grow: 1;
+            list-style: none;
+        }
+
+        .nav-links li {
+            padding: 5px 20px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: rgba(20, 184, 166, 0.1);
+            color: var(--primary-teal);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-footer a {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* --- Top Header Bar --- */
+        .top-bar {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            color: var(--primary-teal);
+            font-size: 1.2rem;
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-teal);
+            cursor: pointer;
+        }
+
+        /* --- Page Header --- */
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            color: var(--dark-teal);
+            margin-bottom: 5px;
+        }
+
+        [data-theme="dark"] .page-header h1 {
+            color: var(--primary-teal);
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* --- Settings Layout Grid --- */
+        .dashboard-container {
+            padding: 30px 40px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+
+        .form-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* --- Buttons --- */
+        .btn-submit {
+            background-color: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0d9488;
+        }
+
+        .btn-dark-teal {
+            background-color: var(--dark-teal);
+        }
+
+        .btn-dark-teal:hover {
+            background-color: #0f3d3a;
+        }
+
+        /* --- iOS Style Toggle Switches --- */
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-row:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-right: 20px;
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        [data-theme="dark"] .slider {
+            background-color: #4b5563;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--primary-teal);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(22px);
+        }
+
+        /* --- Operating Hours Specifics --- */
+        .hours-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .day-label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .master-override {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .top-bar {
+                justify-content: space-between;
+            }
+
+            .dashboard-container {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hours-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 15px;
+            }
+
+            .day-label {
+                grid-column: span 2;
+                margin-bottom: -5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo"><i class="fas fa-heartbeat"></i> Vital Admin</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="admin.html"><i class="fas fa-chart-line"></i> Dashboard Home</a></li>
+            <li><a href="admin.html#queue"><i class="fas fa-list-ul"></i> Appointments Queue</a></li>
+            <li><a href="admin.html#directory"><i class="fas fa-users"></i> Patient Directory</a></li>
+            <li><a href="admin_setting.html" class="active"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <i class="fas fa-bars mobile-toggle" id="mobileMenuBtn"></i>
+            <div></div>
+            <div class="header-actions">
+                <div class="theme-toggle" id="themeBtn"><i class="fas fa-moon"></i></div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>Clinic & Admin Settings</h1>
+                <p>Manage doctor profile, operational hours, and system notifications.</p>
+            </div>
+
+            <div class="settings-grid">
+
+                <div style="display: flex; flex-direction: column; gap: 30px;">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="far fa-id-card text-teal"></i> Doctor & Clinic Profile</h3>
+                        </div>
+                        <form id="profileForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" id="docName" value="Dr. Prachi Sharma" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Qualifications</label>
+                                    <input type="text" id="docQual" value="BDS, MDS" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>System Contact Email (Admin)</label>
+                                <input type="email" id="adminEmail" value="prachisharma84700@gmail.com" required>
+                                <span class="form-hint"><i class="fas fa-info-circle"></i> New appointment alerts will
+                                    be sent here via Nodemailer.</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Public WhatsApp Number</label>
+                                <input type="tel" id="whatsappNum" value="7982657549" required>
+                                <span class="form-hint"><i class="fas fa-info-circle"></i> Updates the floating "Chat
+                                    with us" link globally.</span>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Save Profile</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-lock text-teal"></i> Security & Access</h3>
+                        </div>
+                        <form id="securityForm">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" placeholder="Enter current admin password" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input type="password" placeholder="Min 8 characters" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <input type="password" placeholder="Retype new password" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-submit btn-dark-teal">Update Admin Credentials</button>
+                        </form>
+                    </div>
+
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 30px;">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="far fa-clock text-teal"></i> Operational Hours</h3>
+                        </div>
+                        <form id="hoursForm">
+                            <div class="hours-grid">
+                                <div class="day-label">Mon - Fri</div>
+                                <select>
+                                    <option value="09:00" selected>9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                </select>
+                                <select>
+                                    <option value="17:00">5:00 PM</option>
+                                    <option value="18:00" selected>6:00 PM</option>
+                                </select>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);"><i class="fas fa-door-open"
+                                        style="color: var(--success);"></i> Open</div>
+                            </div>
+
+                            <div class="hours-grid">
+                                <div class="day-label">Saturday</div>
+                                <select>
+                                    <option value="09:00" selected>9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                </select>
+                                <select>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="16:00" selected>4:00 PM</option>
+                                </select>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);"><i class="fas fa-door-open"
+                                        style="color: var(--success);"></i> Open</div>
+                            </div>
+
+                            <div class="toggle-row" style="padding-top: 10px;">
+                                <div class="toggle-label-group">
+                                    <span class="toggle-label">Sunday Operations</span>
+                                    <span class="form-hint">Disable to block Sundays from patient calendar.</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="sundayToggle">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="toggle-row master-override">
+                                <div class="toggle-label-group">
+                                    <span class="toggle-label" style="color: var(--danger);"><i
+                                            class="fas fa-pause-circle"></i> Emergency / Vacation Override</span>
+                                    <span class="form-hint" style="color: var(--text-main);">Temporarily pause all new
+                                        online bookings.</span>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider" style="background-color: #ef4444;"></span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-submit" style="margin-top: 20px;">Save Schedule</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="far fa-bell text-teal"></i> Notification Preferences</h3>
+                        </div>
+
+                        <div class="toggle-row">
+                            <div class="toggle-label-group">
+                                <span class="toggle-label">New Appointment Alerts</span>
+                                <span class="form-hint">Email me immediately when a patient requests a new slot.</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-row">
+                            <div class="toggle-label-group">
+                                <span class="toggle-label">Daily Summary Emails</span>
+                                <span class="form-hint">Send a daily summary email of tomorrow's confirmed
+                                    appointments.</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // --- Theme Toggle Logic ---
+        const themeBtn = document.getElementById('themeBtn');
+        const rootElement = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        rootElement.setAttribute('data-theme', savedTheme);
+        if (themeBtn) themeBtn.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = rootElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            rootElement.setAttribute('data-theme', newTheme);
+            themeBtn.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // --- Form Submission Handlers (Mocking API calls for MERN backend) ---
+
+        // 1. Save Profile & Contact Info
+        document.getElementById('profileForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Expected Backend Action: 
+            // axios.put('/api/settings/profile', { email: ..., whatsapp: ... })
+            alert("✅ Doctor profile and system contact details successfully updated in the database.");
+        });
+
+        // 2. Save Operational Hours
+        document.getElementById('hoursForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const isSundayOpen = document.getElementById('sundayToggle').checked;
+            // Expected Backend Action:
+            // axios.put('/api/settings/hours', { sundayOpen: isSundayOpen, ... })
+            let msg = "✅ Clinic hours updated.";
+            if (!isSundayOpen) msg += " Sundays will now be blocked on the patient booking calendar.";
+            alert(msg);
+        });
+
+        // 3. Update Credentials
+        document.getElementById('securityForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const inputs = this.querySelectorAll('input[type="password"]');
+            if (inputs[1].value !== inputs[2].value) {
+                alert("❌ New passwords do not match.");
+                return;
+            }
+            // Expected Backend Action: Update hash via bcrypt in user collection
+            alert("🔒 Admin credentials successfully updated.");
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>

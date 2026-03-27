@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard | Vital Dental Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="script.js"></script>
+    <script src="dashboard.js"></script>
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --dark-teal: #134E4A;
+            --bg-main: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --whatsapp: #25D366;
+            --sidebar-width: 260px;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- 1. Dashboard Sidebar --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            color: var(--primary-teal);
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+            flex-grow: 1;
+            list-style: none;
+        }
+
+        .nav-links li {
+            padding: 5px 20px;
+        }
+
+        .nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: rgba(20, 184, 166, 0.1);
+            color: var(--primary-teal);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .sidebar-footer a {
+            color: #ef4444;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* Top Bar / Mobile Header */
+        .top-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            color: var(--primary-teal);
+            font-size: 1.2rem;
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-teal);
+            cursor: pointer;
+        }
+
+        /* --- 2. Welcome Header --- */
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .welcome-header h1 {
+            font-size: 2rem;
+            color: var(--dark-teal);
+            margin-bottom: 5px;
+        }
+
+        [data-theme="dark"] .welcome-header h1 {
+            color: var(--primary-teal);
+        }
+
+        .date-display {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .status-badge {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        /* --- Grid Layout for Main Sections --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- 3. Appointment Booking Form --- */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: inherit;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #0d9488;
+        }
+
+        /* --- 5. Health Notifications --- */
+        .notification {
+            background-color: rgba(20, 184, 166, 0.1);
+            border-left: 4px solid var(--primary-teal);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .notification.reminder {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left-color: var(--warning);
+        }
+
+        /* --- 4. Appointment Status Tracker --- */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            padding: 15px;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .status-confirmed {
+            color: var(--success);
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .status-pending {
+            color: var(--warning);
+            font-weight: 600;
+            background: rgba(245, 158, 11, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .action-link {
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .action-link.cancel {
+            color: #ef4444;
+        }
+
+        /* Floating WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--whatsapp);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .top-bar {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo"><i class="fas fa-heartbeat"></i> Vital Dental</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active"><i class="fas fa-home"></i> Overview</a></li>
+            <li><a href="#book"><i class="far fa-calendar-plus"></i> Book Appointment</a></li>
+            <li><a href="#history"><i class="fas fa-history"></i> My History</a></li>
+            <li><a href="dashboard_setting.html"><i class="fas fa-cog"></i> Profile Settings</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-bar">
+            <i class="fas fa-bars mobile-toggle" id="mobileMenuBtn"></i>
+            <div class="theme-toggle" id="themeBtn"><i class="fas fa-moon"></i></div>
+        </div>
+
+        <header class="welcome-header">
+            <div>
+                <h1>Welcome back, Akshay Kumar!</h1>
+                <p class="date-display" id="currentDateDisplay">Loading date...</p>
+            </div>
+            <div class="status-badge">
+                <i class="fas fa-circle" style="font-size: 0.5rem;"></i> Status: Pending Approval
+            </div>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="card" id="book">
+                <h2><i class="far fa-calendar-alt text-teal"></i> Request New Appointment</h2>
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label>Describe your dental concern</label>
+                        <select id="concern" required>
+                            <option value="">Select a reason for visit...</option>
+                            <option value="Routine Cleaning">Routine Cleaning</option>
+                            <option value="Toothache / Pain">Toothache / Pain</option>
+                            <option value="Braces / Orthodontics">Braces Checkup</option>
+                            <option value="Teeth Whitening">Teeth Whitening</option>
+                            <option value="Other">Other Consultation</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Preferred Date</label>
+                            <input type="date" id="prefDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Preferred Time Slot</label>
+                            <select id="prefTime" required disabled>
+                                <option value="" id="defaultTimeOption">Select a date first...</option>
+                                <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
+                                <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                                <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                                <option value="12:00 PM - 1:00 PM">12:00 PM - 1:00 PM</option>
+                                <option value="1:00 PM - 2:00 PM">1:00 PM - 2:00 PM</option>
+                                <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                                <option value="3:00 PM - 4:00 PM">3:00 PM - 4:00 PM</option>
+                                <option value="4:00 PM - 5:00 PM" class="late-slot">4:00 PM - 5:00 PM</option>
+                                <option value="5:00 PM - 6:00 PM" class="late-slot">5:00 PM - 6:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Doctor Preference (Optional)</label>
+                        <select id="doctor">
+                            <option value="Any Available Doctor">Any Available Doctor</option>
+                            <option value="Dr. Prachi Sharma">Dr. Prachi Sharma</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-submit">Submit Request</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2><i class="far fa-bell text-teal"></i> Notifications</h2>
+                <div class="notification">
+                    <strong>Update:</strong> Your appointment for Nov 02 has been confirmed by Dr. Prachi Sharma. An
+                    email has been sent to your inbox.
+                </div>
+                <div class="notification reminder">
+                    <strong>Reminder:</strong> Please arrive 10 minutes early for your upcoming checkup to fill out
+                    standard paperwork.
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="history">
+            <h2><i class="fas fa-clipboard-list text-teal"></i> My Appointments</h2>
+            <div class="table-responsive">
+                <table id="statusTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time Slot</th>
+                            <th>Concern</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oct 24, 2026</td>
+                            <td>10:00 AM</td>
+                            <td>RCT Checkup</td>
+                            <td>Dr. Prachi Sharma</td>
+                            <td><span class="status-confirmed">Confirmed</span></td>
+                            <td><a class="action-link"><i class="far fa-calendar-plus"></i> Add to Calendar</a></td>
+                        </tr>
+                        <tr>
+                            <td>Nov 02, 2026</td>
+                            <td>02:00 PM</td>
+                            <td>Teeth Cleaning</td>
+                            <td>Any Doctor</td>
+                            <td><span class="status-pending">Pending</span></td>
+                            <td><a class="action-link cancel"><i class="fas fa-times"></i> Cancel</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <a href="https://wa.me/917982657549?text=Hi%20I%20would%20like%20to%20inquire%20about%20dental%20services%20at%20Vital%20Dental%20Care"
+        target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+        <span>Chat with us</span>
+    </a>
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+
+        // --- 1. User Authentication Check ---
+        const userDataString = localStorage.getItem('vitalDentalUser');
+        if (!userDataString) {
+            alert("Please log in to access your dashboard.");
+            window.location.href = "login.html"; 
+        }
+        
+        const currentUser = JSON.parse(userDataString);
+        document.querySelector('.welcome-header h1').innerText = `Welcome back, ${currentUser.fullName}!`;
+
+        // --- Date Display & Theme Logic ---
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDateDisplay').innerText = new Date().toLocaleDateString('en-US', dateOptions);
+
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        mobileMenuBtn.addEventListener('click', () => sidebar.classList.toggle('active'));
+
+        const themeBtn = document.getElementById('themeBtn');
+        const rootElement = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        rootElement.setAttribute('data-theme', savedTheme);
+        if (themeBtn) themeBtn.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = rootElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            rootElement.setAttribute('data-theme', newTheme);
+            themeBtn.innerHTML = newTheme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // --- 2. Load Patient's Appointment History & Notifications ---
+        async function fetchPatientAppointments() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/appointments/patient/${currentUser.email}`);
+                if (response.ok) {
+                    const appointments = await response.json();
+                    
+                    const tableBody = document.querySelector('#statusTable tbody');
+                    const notificationsContainer = document.querySelector('.card:nth-child(2)'); // The notifications card
+                    const headerStatusBadge = document.querySelector('.status-badge');
+                    
+                    tableBody.innerHTML = ''; // Clear hardcoded rows
+                    
+                    let latestPending = null;
+                    let latestConfirmed = null;
+                    let notificationHTML = `<h2><i class="far fa-bell text-teal"></i> Notifications</h2>`;
+
+                    if (appointments.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No previous appointments found.</td></tr>`;
+                        notificationHTML += `<div style="color: var(--text-muted); font-size: 0.95rem; margin-top: 15px;">You have no new notifications.</div>`;
+                        headerStatusBadge.style.display = 'none'; // Hide badge if no appointments
+                    } else {
+                        appointments.forEach(appt => {
+                            // Render Table Rows
+                            let statusHtml = '';
+                            if (appt.status === 'Confirmed') {
+                                statusHtml = `<span class="status-confirmed">Confirmed</span>`;
+                                latestConfirmed = appt; // Save the most recent confirmed appt
+                            } else if (appt.status === 'Rejected') {
+                                statusHtml = `<span style="color:red; font-weight:bold;">Rejected</span>`;
+                            } else {
+                                statusHtml = `<span class="status-pending">Pending</span>`;
+                                latestPending = appt; // Save the most recent pending appt
+                            }
+
+                            tableBody.innerHTML += `
+                                <tr>
+                                    <td>${appt.date}</td>
+                                    <td>${appt.timeSlot}</td>
+                                    <td>${appt.concern}</td>
+                                    <td>${appt.doctor}</td>
+                                    <td>${statusHtml}</td>
+                                    <td>${appt.status === 'Pending' ? '<a class="action-link cancel" style="cursor:pointer;"><i class="fas fa-times"></i> Cancel</a>' : '-'}</td>
+                                </tr>
+                            `;
+                        });
+
+                        // Dynamic Status Badge Logic
+                        headerStatusBadge.style.display = 'flex';
+                        if (latestPending) {
+                            headerStatusBadge.innerHTML = `<i class="fas fa-circle" style="font-size: 0.5rem;"></i> Status: Pending Approval`;
+                            headerStatusBadge.style.color = 'var(--warning)';
+                            headerStatusBadge.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
+                            headerStatusBadge.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+                        } else if (latestConfirmed) {
+                            headerStatusBadge.innerHTML = `<i class="fas fa-check-circle"></i> Status: Upcoming Appointment`;
+                            headerStatusBadge.style.color = 'var(--success)';
+                            headerStatusBadge.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+                            headerStatusBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                        } else {
+                            headerStatusBadge.style.display = 'none';
+                        }
+
+                        // Dynamic Notifications Logic
+                        if (latestConfirmed) {
+                            notificationHTML += `
+                                <div class="notification">
+                                    <strong>Update:</strong> Your appointment for ${latestConfirmed.date} at ${latestConfirmed.timeSlot} has been confirmed by ${latestConfirmed.doctor}.
+                                </div>
+                                <div class="notification reminder">
+                                    <strong>Reminder:</strong> Please arrive 10 minutes early for your upcoming ${latestConfirmed.concern} to fill out standard paperwork.
+                                </div>
+                            `;
+                        } else if (latestPending) {
+                             notificationHTML += `
+                                <div class="notification" style="border-left-color: var(--warning); background-color: rgba(245, 158, 11, 0.1);">
+                                    <strong>Pending:</strong> Your request for ${latestPending.date} is awaiting doctor approval. We will email you once confirmed.
+                                </div>
+                            `;
+                        } else {
+                            notificationHTML += `<div style="color: var(--text-muted); font-size: 0.95rem; margin-top: 15px;">You have no new notifications.</div>`;
+                        }
+                    }
+                    
+                    // Inject the dynamic notifications into the card
+                    notificationsContainer.innerHTML = notificationHTML;
+                }
+            } catch (error) {
+                console.error("Failed to fetch history:", error);
+            }
+        }
+
+        fetchPatientAppointments();
+
+
+        // --- 3. Dynamic Date & Time Slot Logic ---
+        const dateInput = document.getElementById('prefDate');
+        const timeSelect = document.getElementById('prefTime');
+        const defaultOption = document.getElementById('defaultTimeOption');
+        const lateSlots = document.querySelectorAll('.late-slot');
+
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        dateInput.addEventListener('change', function () {
+            if (!this.value) {
+                timeSelect.disabled = true;
+                defaultOption.textContent = "Select a date first...";
+                timeSelect.value = "";
+                return;
+            }
+            const [year, month, day] = this.value.split('-');
+            const selectedDate = new Date(year, month - 1, day);
+            const dayOfWeek = selectedDate.getDay(); 
+            timeSelect.value = "";
+
+            if (dayOfWeek === 0) {
+                alert("Vital Dental Care is closed on Sundays. Please select a different day.");
+                this.value = '';
+                timeSelect.disabled = true;
+                defaultOption.textContent = "Select a date first...";
+            } else if (dayOfWeek === 6) {
+                timeSelect.disabled = false;
+                defaultOption.textContent = "Select a time slot...";
+                lateSlots.forEach(slot => { slot.disabled = true; slot.style.display = 'none'; });
+            } else {
+                timeSelect.disabled = false;
+                defaultOption.textContent = "Select a time slot...";
+                lateSlots.forEach(slot => { slot.disabled = false; slot.style.display = 'block'; });
+            }
+        });
+
+        // --- 4. Submit Booking to Backend Database ---
+        document.getElementById('bookingForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const concern = document.getElementById('concern').value;
+            const dateVal = document.getElementById('prefDate').value;
+            const timeSlotVal = document.getElementById('prefTime').value; 
+            const doctor = document.getElementById('doctor').value;
+
+            const [year, month, day] = dateVal.split('-');
+            const selectedDate = new Date(year, month - 1, day);
+            const formattedDate = selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            const appointmentData = {
+                patientName: currentUser.fullName,
+                patientEmail: currentUser.email,
+                concern: concern,
+                date: formattedDate,
+                timeSlot: timeSlotVal,
+                doctor: doctor
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/appointments/book`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appointmentData)
+                });
+
+                if (response.ok) {
+                    alert(`Appointment request sent to ${doctor} for ${timeSlotVal}! Check your email for updates.`);
+                    this.reset();
+                    timeSelect.disabled = true;
+                    defaultOption.textContent = "Select a date first...";
+                    
+                    // Refresh the data to update tables, badges, and notifications instantly
+                    fetchPatientAppointments();
+                } else {
+                    alert("Failed to book appointment. Please try again.");
+                }
+            } catch (error) {
+                alert("Server error. Could not connect to database.");
+            }
+        });
+
+        // Logout logic
+        document.querySelector('.sidebar-footer a').addEventListener('click', (e) => {
+            localStorage.removeItem('vitalDentalUser'); 
+        });
+    </script>
+</body>
+
+</html>

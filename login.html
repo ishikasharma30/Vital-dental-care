@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Vital Dental Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="script.js"></script>
+    <script src="login.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --dark-teal: #134E4A;
+            --bg-white: #ffffff;
+            --bg-soft: #f9fafb;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --border: #e5e7eb;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-white: #0f172a;
+            --bg-soft: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-soft);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .logo {
+            color: var(--primary-teal);
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        /* --- Login Container --- */
+        .login-card {
+            background: var(--bg-white);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .portal-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-soft);
+            color: var(--primary-teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+        }
+
+        .login-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            color: white;
+
+            /* --- Add these lines to force centering --- */
+            display: flex;
+            justify-content: center;
+            /* Centers horizontally */
+            align-items: center;
+            /* Centers vertically */
+            text-align: center;
+            /* Fallback for standard text alignment */
+        }
+
+
+        .btn-patient {
+            background: var(--primary-teal);
+        }
+
+        .btn-admin {
+            background: var(--dark-teal);
+        }
+
+        /* --- Footer Links --- */
+        .login-footer {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .login-footer a {
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-footer .secondary-link {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+
+        /* --- Animations --- */
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fas fa-heartbeat"></i> Vital Dental Care
+        </a>
+    </header>
+
+    <div id="patientPortal" class="login-card fade-in">
+        <div class="portal-icon">
+            <i class="fas fa-user-injured"></i>
+        </div>
+        <h2>Patient Login</h2>
+        <p>Sign in to view your appointments</p>
+
+        <form id="patientForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" placeholder="abcd1234@gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-login btn-patient">Login</button>
+        </form>
+
+        <div class="login-footer">
+            <p>New patient? <a href="signup.html">Create an account</a></p>
+            <a href="index.html" class="secondary-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            <a href="#" onclick="togglePortal('admin')" class="secondary-link">Admin Login</a>
+        </div>
+    </div>
+
+    <div id="adminPortal" class="login-card fade-in hidden">
+        <div class="portal-icon">
+            <i class="fas fa-user-shield"></i>
+        </div>
+        <h2 style="color: var(--dark-teal)">Admin Portal</h2>
+        <p>Authorized Access Only</p>
+
+        <form id="adminForm">
+            <div class="form-group">
+                <label>Admin ID / Email</label>
+                <input type="text" placeholder="Staff Credentials" required>
+            </div>
+            <div class="form-group">
+                <label>Security Key</label>
+                <input type="text" placeholder="Clinic Security Code" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-login btn-admin">Access Dashboard</button>
+        </form>
+
+        <div class="login-footer">
+            <a href="#" onclick="togglePortal('patient')" class="secondary-link">Switch to Patient Login</a>
+            <a href="index.html" class="secondary-link"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Toggle logic between Patient and Admin portals
+        function togglePortal(type) {
+            const patientBox = document.getElementById('patientPortal');
+            const adminBox = document.getElementById('adminPortal');
+
+            if (type === 'admin') {
+                patientBox.classList.add('hidden');
+                adminBox.classList.remove('hidden');
+                document.title = "Admin Portal | Vital Dental Care";
+            } else {
+                adminBox.classList.add('hidden');
+                patientBox.classList.remove('hidden');
+                document.title = "Patient Login | Vital Dental Care";
+            }
+        }
+
+        // --- Patient Login Logic ---
+        // --- Patient Login Logic ---
+        document.getElementById('patientForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = e.target.querySelector('input[type="email"]').value;
+            const password = e.target.querySelector('input[type="password"]').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Save the user data locally so the dashboard can read it!
+                    localStorage.setItem('vitalDentalUser', JSON.stringify(data.user));
+                    alert("Login successful! Redirecting...");
+                    window.location.href = "dashboard.html";
+                } else {
+                    alert(data.error);
+                }
+            } catch (error) {
+                alert("Failed to connect to the server.");
+            }
+        });
+        // --- Admin Login Logic ---
+        document.getElementById('adminForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop standard form submission
+
+            // Get values by selecting all inputs inside this specific form
+            const inputs = e.target.querySelectorAll('input');
+            const email = inputs[0].value;
+            const securityKey = inputs[1].value;
+            const password = inputs[2].value;
+
+            try {
+                // Send the exact credentials to the Node.js backend route you created
+                const response = await fetch('http://localhost:5000/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, securityKey, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Admin verified! Accessing secure portal...");
+                    window.location.href = "admin.html"; // Redirect to Admin Dashboard
+                } else {
+                    // Show error if password/key is wrong based on your .env file
+                    alert("Access Denied: " + result.error);
+                }
+            } catch (error) {
+                console.error("Admin Login Error:", error);
+                alert("Failed to connect to the server. Is your backend running?");
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Vital Dental Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- About Hero --- */
+        .about-hero {
+            background-color: #ecf8f7;
+            padding: 6rem 1.5rem 8rem 1.5rem;
+            text-align: center;
+        }
+
+        .about-label {
+            display: inline-block;
+            color: var(--teal);
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .about-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-desc {
+            color: var(--gray-500);
+            font-size: 1.125rem;
+            max-width: 48rem;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* --- Stats Cards (Overlapping) --- */
+        .stats-section {
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: -4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            /* Added smooth transition for hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover Effect! */
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            border-radius: 0.75rem;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        /* --- Our Story Section --- */
+        .our-story {
+            padding: 6rem 1.5rem;
+            background-color: var(--white);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .story-badge {
+            display: inline-block;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content p {
+            color: var(--gray-500);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+
+        /* --- Story Timeline Card --- */
+        .story-timeline-card {
+            background-color: var(--white);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--gray-50);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .story-timeline-card:hover {
+            box-shadow: 0 15px 50px rgba(32, 178, 170, 0.15);
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-header-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .timeline-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .timeline-header p {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        /* Vertical Timeline Logic */
+        .timeline-wrapper {
+            border-left: 2px solid #e5e7eb;
+            margin-left: 1.5rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(5px);
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: -3.2rem;
+            top: -0.25rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            box-shadow: 0 0 0 4px var(--white);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-year {
+            background-color: var(--teal);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .timeline-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-info p {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* --- Meet Your Doctor Section --- */
+        .section-header-center {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header-center h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--gray-500);
+            font-size: 1.125rem;
+        }
+
+        .team-section {
+            padding: 6rem 1.5rem;
+            background-color: var(--gray-50);
+        }
+
+        .doctor-profile-card {
+            background-color: var(--white);
+            max-width: 32rem;
+            margin: 0 auto;
+            padding: 3rem 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-100);
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .doctor-profile-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-avatar {
+            width: 6.5rem;
+            height: 6.5rem;
+            margin: 0 auto 1.5rem auto;
+            border-radius: 50%;
+            background-color: var(--teal-light);
+            border: 4px solid #d4eeec;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--teal);
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+
+        .doctor-profile-card:hover .doctor-avatar {
+            transform: scale(1.05);
+            border-color: var(--teal);
+        }
+
+        .doctor-name {
+            font-size: 1.5rem;
+            color: var(--teal);
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .doctor-role {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .doctor-divider {
+            border: 0;
+            border-top: 1px solid var(--gray-100);
+            margin: 1.5rem 0;
+        }
+
+        .doctor-qualifications {
+            list-style: none;
+            padding: 0;
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .doctor-qualifications i {
+            color: var(--teal);
+            margin-right: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* --- Our Values Section --- */
+        .values-section {
+            padding: 6rem 1.5rem;
+            background-color: var(--white);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background-color: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--gray-100);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .value-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem auto;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .value-card:hover .value-icon {
+            transform: scale(1.1);
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        .value-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- Dark Mode Additions --- */
+        [data-theme="dark"] .about-hero {
+            background-color: #0f172a;
+        }
+
+        [data-theme="dark"] .stats-section,
+        [data-theme="dark"] .our-story {
+            background-color: var(--gray-50);
+        }
+
+        [data-theme="dark"] .story-timeline-card {
+            background-color: var(--white);
+            border-color: var(--gray-100);
+        }
+
+        [data-theme="dark"] .timeline-wrapper {
+            border-color: var(--gray-100);
+        }
+
+        [data-theme="dark"] .timeline-year {
+            box-shadow: 0 0 0 4px var(--white);
+        }
+
+        [data-theme="dark"] .doctor-profile-card,
+        [data-theme="dark"] .value-card {
+            background-color: var(--white);
+            border-color: var(--gray-100);
+        }
+
+        [data-theme="dark"] .doctor-divider {
+            border-color: var(--gray-100);
+        }
+
+        [data-theme="dark"] .doctor-avatar {
+            border-color: rgba(32, 178, 170, 0.3);
+        }
+
+        /* --- Responsive Layout Adjustments --- */
+        @media (max-width: 1024px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .values-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                margin-top: -2rem;
+            }
+
+            .section-header-center h2 {
+                font-size: 2.25rem;
+            }
+
+            .about-title {
+                font-size: 2.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="contact-info">
+            <span><i class="fas fa-phone"></i> 7982657549</span>
+            <span><i class="fas fa-envelope"></i> prachisharma84700@gmail.com</span>
+        </div>
+        <div class="working-hours">Mon - Sat: 9:00 AM - 6:00 PM</div>
+    </div>
+
+    <nav class="navbar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-wave-square"></i></div>
+            <div class="brand-text">
+                <h1>Vital Dental Care</h1>
+                <p>For a Bright, Healthier You</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <button class="btn-login">
+                <a href="login.html"><i class="far fa-user"></i> Patient Login</a>
+            </button>
+            <button class="btn-theme"><i class="fas fa-sun"></i></button>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div class="container">
+            <span class="about-label">About Us</span>
+            <h2 class="about-title">
+                Your Smile Is Our <span class="text-teal">Passion</span>
+            </h2>
+            <p class="about-desc">
+                At Vital Dental Care, we combine modern technology with compassionate care to deliver exceptional dental
+                experiences.
+            </p>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3 class="stat-number">500+</h3>
+                    <p class="stat-label">Happy Patients</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <h3 class="stat-number">2+</h3>
+                    <p class="stat-label">Years Experience</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="stat-number">BDS & MDS</h3>
+                    <p class="stat-label">Qualified</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-story">
+        <div class="container story-grid">
+
+            <div class="story-content">
+                <span class="story-badge">Our Story</span>
+                <h2>A Commitment to <span class="text-teal">Excellence</span></h2>
+
+                <p>Founded by Dr. Prachi Sharma, Vital Dental Care began with a simple mission: to provide world-class
+                    dental care in a warm, welcoming environment in the heart of Gurugram.</p>
+
+                <p>With qualifications from Manav Rachna University (BDS) and SGT University (MDS), Dr. Sharma brings
+                    expert knowledge and a gentle approach to every treatment.</p>
+
+                <p>We treat every patient like family, offering comprehensive dental services from routine cleanings to
+                    advanced procedures using the latest technology.</p>
+            </div>
+
+            <div class="story-timeline-card">
+                <div class="timeline-header">
+                    <div class="timeline-header-icon">
+                        <i class="far fa-building"></i>
+                    </div>
+                    <div>
+                        <h3>Our Clinic</h3>
+                        <p>Patel Nagar, Gurugram</p>
+                    </div>
+                </div>
+
+                <div class="timeline-wrapper">
+                    <div class="timeline-item">
+                        <div class="timeline-year">23</div>
+                        <div class="timeline-info">
+                            <h4>Founded</h4>
+                            <p>Dr. Prachi Sharma opened Vital Dental Care with a vision of patient-centered care.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">24</div>
+                        <div class="timeline-info">
+                            <h4>Growing Community</h4>
+                            <p>Expanded services and welcomed hundreds of happy patients.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">25</div>
+                        <div class="timeline-info">
+                            <h4>Digital Innovation</h4>
+                            <p>Launched online booking and automated appointment reminders.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-badge">Your Doctor</span>
+                <h2>Meet <span class="text-teal">Dr. Prachi Sharma</span></h2>
+                <p class="subtitle">Dedicated to providing you with the best possible dental care.</p>
+            </div>
+
+            <div class="doctor-profile-card">
+                <div class="doctor-avatar">
+                    <img src="img/Dr. Prachi.jpeg" alt="Dr. Prachi Sharma" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                </div>
+                <h3 class="doctor-name">Dr. Prachi Sharma</h3>
+                <p class="doctor-role">Dental Surgeon</p>
+                <hr class="doctor-divider">
+                <ul class="doctor-qualifications">
+                    <li><i class="fas fa-graduation-cap"></i> BDS – Manav Rachna University</li>
+                    <li><i class="fas fa-graduation-cap"></i> MDS – SGT University</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <div class="container">
+            <div class="section-header-center">
+                <span class="section-badge">Our Values</span>
+                <h2>What We Stand For</h2>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon"><i class="far fa-heart"></i></div>
+                    <h3>Patient-First Care</h3>
+                    <p>Every decision we make is centered around your comfort, health, and satisfaction.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-award"></i></div>
+                    <h3>Excellence</h3>
+                    <p>We continuously invest in training and technology to deliver the best outcomes.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon"><i class="fas fa-user-friends"></i></div>
+                    <h3>Community</h3>
+                    <p>We're proud to serve our local community in Gurugram with compassionate dental care.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <div class="footer-brand">
+                    <div class="brand-icon"><i class="fas fa-wave-square"></i></div>
+                    <div>
+                        <h4>Vital Dental Care</h4>
+                        <p>For a Bright, Healthier You</p>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Your trusted partner in dental health. We're committed to providing exceptional care in a
+                    comfortable and welcoming environment.
+                </p>
+            </div>
+
+            <div class="footer-contact">
+                <h5>Contact Us</h5>
+                <ul>
+                    <li><i class="fas fa-phone-alt"></i> 7982657549</li>
+                    <li><i class="far fa-envelope"></i> prachisharma84700@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 1092/5, Street No. 12, Patel Nagar,<br>Gurugram, Haryana —
+                        122001</li>
+                </ul>
+            </div>
+
+            <div class="footer-hours">
+                <h5>Working Hours</h5>
+                <ul>
+                    <li><span>Monday - Friday</span> <span>9AM - 6PM</span></li>
+                    <li><span>Saturday</span> <span>9AM - 4PM</span></li>
+                    <li><span>Sunday</span> <span class="closed">Closed</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom border-top">
+            <p>© 2026 Vital Dental Care. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/917982657549?text=Hi%20I%20would%20like%20to%20inquire%20about%20dental%20services%20at%20Vital%20Dental%20Care"
+        target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+        <span>Chat with us</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
