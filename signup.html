@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Signup | Vital Dental Care</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="script.js"></script>
+    <script src="signup.js"></script>
+    <style>
+        :root {
+            --primary-teal: #14B8A6;
+            --dark-teal: #134E4A;
+            --bg-white: #ffffff;
+            --bg-soft: #f9fafb;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --border: #e5e7eb;
+            --error: #ef4444;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-white: #0f172a;
+            --bg-soft: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background 0.3s, border 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-soft);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .signup-container {
+            background: var(--bg-white);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* 1. Header & Brand Identity */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            color: var(--primary-teal);
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .brand-header h2 {
+            font-size: 1.75rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .brand-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* 2. Registration Form Fields */
+        .registration-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        input {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .terms-container {
+            grid-column: span 2;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .terms-container input {
+            width: auto;
+            margin-top: 3px;
+            cursor: pointer;
+        }
+
+        /* 3. Action Buttons & Navigation */
+        .btn-signup {
+            grid-column: span 2;
+            background: var(--primary-teal);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-signup:hover {
+            opacity: 0.9;
+        }
+
+        .form-footer {
+            grid-column: span 2;
+            text-align: center;
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-footer a {
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Fix */
+        @media (max-width: 480px) {
+            .registration-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group {
+                grid-column: span 1;
+            }
+
+            .signup-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="signup-container">
+        <div class="brand-header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i> Vital Dental Care
+            </div>
+            <h2>Create Your Account</h2>
+            <p>Join our community for a bright, healthier smile</p>
+        </div>
+
+        <form class="registration-form" id="signupForm">
+            <div class="form-group full-width">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="John Doe" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="7982657549" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePass"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" required>
+            </div>
+
+            <div class="terms-container">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the <a href="#">privacy policy</a> and <a href="#">terms of
+                        service</a></label>
+            </div>
+
+            <button type="submit" class="btn-signup">Create Account</button>
+
+            <div class="form-footer">
+                <p>Already have an account? <a href="login.html">Log In</a></p>
+                <a href="index.html" class="back-home">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </form>
+    </div>
+    <script>
+        // --- Password Visibility Toggle ---
+        const togglePass = document.querySelector('#togglePass');
+        const passwordInput = document.querySelector('#password');
+
+        togglePass.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // --- Combined Form Validation & Backend Connection ---
+        const signupForm = document.querySelector('#signupForm');
+        const password = document.querySelector('#password');
+        const confirmPass = document.querySelector('#confirmPassword');
+
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop default page reload
+
+            // 1. Check if passwords match
+            if (password.value !== confirmPass.value) {
+                alert("Passwords do not match!");
+                return; // Stop the function here so it doesn't send bad data to backend
+            }
+
+            // 2. Gather data from inputs
+            const data = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                password: password.value
+            };
+
+            try {
+                // 3. Send to backend
+                const response = await fetch('http://localhost:5000/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                // 4. Handle Backend Response
+                if (response.ok) {
+                    alert("Account created successfully! Please log in.");
+                    window.location.href = 'login.html'; // Correctly redirects to login
+                } else {
+                    // Show error from backend (e.g., "Email already registered")
+                    alert(result.message || "Error signing up");
+                }
+            } catch (error) {
+                console.error("Database connection error:", error);
+                alert("Failed to connect to the server. Make sure your Node.js backend is running.");
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Vital Dental Care</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <script src="services.js"></script>
+    <style>
+      /* Core Variables (Fallback if style.css is missing) */
+        :root {
+            --primary: #0D6D62;
+            --teal: #20B2AA;
+            --teal-light: #E6F3F2;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--white);
+            color: var(--gray-800);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-teal {
+            color: var(--teal);
+        }
+
+        /* --- Services Features Section --- */
+        .services-features {
+            padding: 6rem 1.5rem;
+            background-color: var(--gray-50);
+            min-height: 80vh;
+        }
+
+        .services-header-left {
+            margin-bottom: 3.5rem;
+            text-align: left;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .services-header-left h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .badge-outline {
+            display: inline-block;
+            background-color: #e6f7f5;
+            color: var(--teal);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Services Grid & Cards --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--gray-100);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .service-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-card p {
+            color: var(--gray-500);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Hover Effects */
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08), inset 0 -4px 0 var(--teal);
+        }
+
+        .service-card:hover h3 {
+            color: var(--teal);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+
+        /* --- FAQ Section --- */
+        .faq-section {
+            padding: 6rem 1.5rem;
+            background-color: var(--white);
+        }
+
+        .section-header-center {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header-center h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--gray-500);
+            font-size: 1.125rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            border: 1px solid var(--gray-100);
+            border-radius: 1rem;
+            overflow: hidden;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .faq-toggle {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            background-color: transparent;
+            border: none;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-800);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .faq-toggle:hover {
+            background-color: var(--gray-50);
+        }
+
+        .faq-toggle i {
+            color: var(--gray-400);
+            transition: transform 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .faq-toggle i.rotate-180 {
+            transform: rotate(180deg);
+            color: var(--teal);
+        }
+
+        .faq-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: var(--gray-500);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* This hides the answer initially */
+        .faq-content.hidden {
+            display: none;
+        }
+
+        /* --- Dark Mode Additions --- */
+        [data-theme="dark"] .services-features {
+            background-color: #111827;
+        }
+
+        [data-theme="dark"] .faq-section {
+            background-color: #0f172a;
+        }
+
+        [data-theme="dark"] .service-card,
+        [data-theme="dark"] .faq-item {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+
+        [data-theme="dark"] .badge-outline,
+        [data-theme="dark"] .faq-badge {
+            background-color: rgba(32, 178, 170, 0.15);
+        }
+
+        [data-theme="dark"] .services-header-left h2,
+        [data-theme="dark"] .section-header-center h2,
+        [data-theme="dark"] .service-card h3,
+        [data-theme="dark"] .faq-toggle {
+            color: #f9fafb;
+        }
+
+        [data-theme="dark"] .faq-toggle:hover {
+            background-color: #374151;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-header-left h2 {
+                font-size: 2.5rem;
+            }
+
+            .section-header-center h2 {
+                font-size: 2.25rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="contact-info">
+            <span><i class="fas fa-phone"></i> 7982657549</span>
+            <span><i class="fas fa-envelope"></i> prachisharma84700@gmail.com</span>
+        </div>
+        <div class="working-hours">Mon - Sat: 9:00 AM - 6:00 PM</div>
+    </div>
+
+    <nav class="navbar">
+        <div class="brand">
+            <div class="brand-icon"><i class="fas fa-wave-square"></i></div>
+            <div class="brand-text">
+                <h1>Vital Dental Care</h1>
+                <p>For a Bright, Healthier You</p>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <button class="btn-login">
+                <a href="login.html"><i class="far fa-user"></i> Patient Login</a>
+            </button>
+            <button class="btn-theme"><i class="fas fa-sun"></i></button>
+        </div>
+    </nav>
+
+    <section class="services-features">
+        <div class="container">
+
+            <div class="services-header-left">
+                <span class="badge-outline">WHY CHOOSE US</span>
+                <h2>Everything you need for <br><span class="text-teal">exceptional care</span></h2>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="far fa-calendar-alt"></i></div>
+                    <h3>Easy Online Booking</h3>
+                    <p>Book your appointment 24/7 from anywhere. No phone calls needed.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="far fa-clock"></i></div>
+                    <h3>Quick Response</h3>
+                    <p>Receive confirmation within hours. We value your time.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is protected with industry-standard encryption.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h3>Expert Dental Surgeon</h3>
+                    <p>Dr. Prachi Sharma brings BDS & MDS qualifications to every treatment.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="far fa-heart"></i></div>
+                    <h3>Patient-First Care</h3>
+                    <p>We prioritize your comfort and well-being at every visit.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon"><i class="far fa-star"></i></div>
+                    <h3>Quality Service</h3>
+                    <p>Hundreds of satisfied patients trust Vital Dental Care with their smiles.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container faq-container">
+
+            <div class="section-header-center">
+                <span class="faq-badge"><i class="far fa-question-circle"></i> FAQ</span>
+                <h2>Frequently Asked <span class="text-teal">Questions</span></h2>
+                <p class="subtitle">Find answers to common questions about our dental services.</p>
+            </div>
+
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <button class="faq-toggle">
+                        How often should I visit the dentist?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content hidden">
+                        For most patients, we recommend a professional cleaning and check-up every 6 months. This allows
+                        us to catch potential issues early and keep your oral health on track.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-toggle">
+                        Does teeth whitening damage my teeth?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content hidden">
+                        When performed by a professional, teeth whitening is safe and does not damage enamel. We use
+                        high-quality, clinical-grade gels that are designed to minimize sensitivity.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-toggle">
+                        What should I do in a dental emergency?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content hidden">
+                        In case of a dental emergency, call our clinic immediately at 7982657549. We prioritize
+                        emergency cases and will do our best to see you on the same day.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-toggle">
+                        How long does Invisalign treatment take?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content hidden">
+                        Treatment time varies depending on the complexity of your case, but most adult Invisalign
+                        treatments are completed within 12 to 18 months.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-toggle">
+                        Do you accept dental insurance?
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-content hidden">
+                        Yes, we accept most major dental insurance plans. Please contact our front desk with your policy
+                        details so we can help you maximize your benefits.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <div class="footer-brand">
+                    <div class="brand-icon"><i class="fas fa-wave-square"></i></div>
+                    <div>
+                        <h4>Vital Dental Care</h4>
+                        <p>For a Bright, Healthier You</p>
+                    </div>
+                </div>
+                <p class="footer-desc">
+                    Your trusted partner in dental health. We're committed to providing exceptional care in a
+                    comfortable and welcoming environment.
+                </p>
+            </div>
+
+            <div class="footer-contact">
+                <h5>Contact Us</h5>
+                <ul>
+                    <li><i class="fas fa-phone-alt"></i> 7982657549</li>
+                    <li><i class="far fa-envelope"></i> prachisharma84700@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 1092/5, Street No. 12, Patel Nagar,<br>Gurugram, Haryana —
+                        122001</li>
+                </ul>
+            </div>
+
+            <div class="footer-hours">
+                <h5>Working Hours</h5>
+                <ul>
+                    <li><span>Monday - Friday</span> <span>9AM - 6PM</span></li>
+                    <li><span>Saturday</span> <span>9AM - 4PM</span></li>
+                    <li><span>Sunday</span> <span class="closed">Closed</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom border-top">
+            <p>© 2026 Vital Dental Care. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/917982657549" target="_blank" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+        <span>Chat with us</span>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. FAQ Toggle Logic
+            const faqButtons = document.querySelectorAll('.faq-toggle');
+
+            faqButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const faqItem = button.parentElement;
+                    const content = faqItem.querySelector('.faq-content');
+                    const icon = button.querySelector('i');
+
+                    // Close all other open FAQs automatically
+                    document.querySelectorAll('.faq-content').forEach(item => {
+                        if (item !== content && !item.classList.contains('hidden')) {
+                            item.classList.add('hidden');
+                            item.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                        }
+                    });
+
+                    // Toggle the clicked FAQ content
+                    content.classList.toggle('hidden');
+
+                    // Rotate the chevron arrow
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // 2. Theme Toggle Logic (Matches your original setup)
+            const themeBtn = document.querySelector('.btn-theme');
+            if (themeBtn) {
+                const themeIcon = themeBtn.querySelector('i');
+                const rootElement = document.documentElement;
+
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    rootElement.setAttribute('data-theme', 'dark');
+                    if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+                }
+
+                themeBtn.addEventListener('click', () => {
+                    const currentTheme = rootElement.getAttribute('data-theme');
+                    if (currentTheme === 'dark') {
+                        rootElement.removeAttribute('data-theme');
+                        if (themeIcon) themeIcon.classList.replace('fa-moon', 'fa-sun');
+                        localStorage.setItem('theme', 'light');
+                    } else {
+                        rootElement.setAttribute('data-theme', 'dark');
+                        if (themeIcon) themeIcon.classList.replace('fa-sun', 'fa-moon');
+                        localStorage.setItem('theme', 'dark');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
